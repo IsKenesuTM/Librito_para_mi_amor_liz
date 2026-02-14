@@ -6,14 +6,23 @@
   <title>Para Liz</title>
   <style>
     :root{
-      --bg1:#0b1020;
-      --bg2:#2b0f2a;
-      --paper:#fff7ee;
+      /* Paleta tierna + “kawaii clásico” */
+      --bgA:#ffd6e8;
+      --bgB:#e7dbff;
+      --bgC:#cfeaff;
+
+      --paper:#fff8f1;
+      --paper2:#fff2e3;
       --ink:#1f1f1f;
+
       --gold:#f6d36b;
-      --cover1:#7b1338;
+
+      /* portada estilo “libro clásico” + cute */
+      --cover1:#7a173f;
       --cover2:#3b0b1e;
-      --shadow: 0 25px 80px rgba(0,0,0,.55);
+      --cover3:#a83a63;
+
+      --shadow: 0 25px 80px rgba(0,0,0,.40);
       --radius: 18px;
     }
 
@@ -23,26 +32,31 @@
       min-height:100vh;
       display:grid;
       place-items:center;
-      background:
-        radial-gradient(1200px 700px at 20% 15%, rgba(255,90,160,.15), transparent 60%),
-        radial-gradient(900px 600px at 80% 20%, rgba(100,180,255,.10), transparent 60%),
-        linear-gradient(160deg, var(--bg1), var(--bg2));
       color:#fff;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       overflow:hidden;
+
+      /* Fondo tierno con capas: degradado + nubes suaves + patrón kawaii */
+      background:
+        radial-gradient(900px 520px at 20% 15%, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(780px 520px at 80% 20%, rgba(255,255,255,.45), transparent 60%),
+        linear-gradient(135deg, var(--bgA), var(--bgB), var(--bgC)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='rgba(255,255,255,0)'/%3E%3Cg opacity='0.35'%3E%3C!-- mo%C3%B1itos --%3E%3Cg fill='rgba(255,105,180,0.30)'%3E%3Cpath d='M40 40c10-8 18-8 28 0-10 10-18 10-28 0z'/%3E%3Cpath d='M68 40c10-8 18-8 28 0-10 10-18 10-28 0z'/%3E%3Ccircle cx='68' cy='40' r='4'/%3E%3C/g%3E%3C!-- corazones mini --%3E%3Cg fill='rgba(255,77,144,0.22)'%3E%3Cpath d='M130 46c-4-6-14-3-14 5 0 10 14 16 14 16s14-6 14-16c0-8-10-11-14-5z'/%3E%3C/g%3E%3C!-- estrellitas --%3E%3Cg fill='rgba(246,211,107,0.28)'%3E%3Cpath d='M34 118l3 6 6 1-5 4 1 6-5-3-5 3 1-6-5-4 6-1 3-6z'/%3E%3Cpath d='M150 124l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1 2-4z'/%3E%3C/g%3E%3C!-- puntos suaves --%3E%3Cg fill='rgba(80,80,120,0.12)'%3E%3Ccircle cx='22' cy='22' r='3'/%3E%3Ccircle cx='160' cy='28' r='3'/%3E%3Ccircle cx='28' cy='160' r='3'/%3E%3Ccircle cx='154' cy='154' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-size: auto, auto, auto, 180px 180px;
     }
 
+    /* brillo suave */
     .glow{
       position:fixed;
       inset:-200px;
-      background: radial-gradient(circle at 50% 50%, rgba(246,211,107,.08), transparent 55%);
-      filter: blur(20px);
+      background: radial-gradient(circle at 50% 40%, rgba(255,120,180,.18), transparent 58%);
+      filter: blur(26px);
       pointer-events:none;
       animation: breathe 6s ease-in-out infinite;
     }
     @keyframes breathe{
       0%,100%{ transform: scale(1); opacity:.8; }
-      50%{ transform: scale(1.05); opacity:1; }
+      50%{ transform: scale(1.07); opacity:1; }
     }
 
     .wrap{
@@ -54,12 +68,19 @@
     }
 
     .hint{
-      opacity:.9;
+      opacity:.95;
       font-size:14px;
       letter-spacing:.2px;
       text-align:center;
+      color: rgba(40,20,40,.85);
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(255,255,255,.55);
+      padding: 10px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 35px rgba(0,0,0,.12);
     }
-    .hint b{ color:var(--gold); }
+    .hint b{ color:#d84c8b; }
 
     .scene{
       perspective: 1600px;
@@ -74,26 +95,27 @@
       width:min(760px, 92vw);
       height:min(460px, 56vh);
       transform-style:preserve-3d;
-      filter: drop-shadow(0 25px 60px rgba(0,0,0,.55));
+      filter: drop-shadow(0 25px 60px rgba(0,0,0,.25));
       user-select:none;
     }
 
+    /* lomo */
     .spine{
       position:absolute;
       left: -18px;
       top: 8px;
       width: 36px;
       height: calc(100% - 16px);
-      background: linear-gradient(180deg, #2a0614, #16030a);
+      background: linear-gradient(180deg, rgba(45,10,25,1), rgba(20,5,12,1));
       border-radius: 14px;
       transform: translateZ(2px);
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,.06);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.10);
     }
 
+    /* portada */
     .cover{
       position:absolute;
       inset:0;
-      background: linear-gradient(135deg, var(--cover1), var(--cover2));
       border-radius: var(--radius);
       transform-origin: left center;
       transform-style:preserve-3d;
@@ -101,28 +123,38 @@
       box-shadow: var(--shadow);
       transition: transform 1.15s cubic-bezier(.2,.9,.15,1), box-shadow .5s ease;
       overflow:hidden;
+
+      /* textura tipo tela + degradado */
+      background:
+        radial-gradient(900px 500px at 20% 18%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(520px 320px at 82% 30%, rgba(246,211,107,.12), transparent 60%),
+        linear-gradient(135deg, var(--cover3), var(--cover1), var(--cover2)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg opacity='0.18'%3E%3Cpath d='M0 12h120' stroke='rgba(255,255,255,0.7)' stroke-width='2'/%3E%3Cpath d='M0 60h120' stroke='rgba(255,255,255,0.35)' stroke-width='2'/%3E%3Cpath d='M0 108h120' stroke='rgba(255,255,255,0.6)' stroke-width='2'/%3E%3Cpath d='M12 0v120' stroke='rgba(255,255,255,0.45)' stroke-width='2'/%3E%3Cpath d='M60 0v120' stroke='rgba(255,255,255,0.25)' stroke-width='2'/%3E%3Cpath d='M108 0v120' stroke='rgba(255,255,255,0.4)' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: auto, auto, auto, 120px 120px;
     }
 
+    /* marco dorado estilo “clásico” */
     .cover::before{
       content:"";
       position:absolute;
       inset:14px;
       border-radius: calc(var(--radius) - 8px);
-      box-shadow: inset 0 0 0 2px rgba(246,211,107,.55);
-      opacity:.9;
+      box-shadow:
+        inset 0 0 0 2px rgba(246,211,107,.65),
+        inset 0 0 0 7px rgba(246,211,107,.12);
+      opacity:1;
       pointer-events:none;
     }
 
+    /* “puntadas” cute alrededor */
     .cover::after{
       content:"";
       position:absolute;
-      inset:0;
-      background:
-        radial-gradient(600px 300px at 20% 20%, rgba(255,255,255,.18), transparent 55%),
-        radial-gradient(420px 240px at 80% 30%, rgba(246,211,107,.18), transparent 55%);
-      mix-blend-mode: screen;
-      opacity:.55;
+      inset:24px;
+      border-radius: calc(var(--radius) - 14px);
+      border: 2px dashed rgba(255,255,255,.18);
       pointer-events:none;
+      opacity:.9;
     }
 
     .cover-content{
@@ -135,34 +167,55 @@
     }
 
     .title{
-      font-size: clamp(28px, 3.6vw, 44px);
+      font-family: Georgia, "Times New Roman", serif; /* vibe de libro clásico */
+      font-size: clamp(28px, 3.6vw, 46px);
       font-weight: 900;
-      letter-spacing: .5px;
+      letter-spacing: .6px;
       margin:0;
+      text-shadow: 0 12px 35px rgba(0,0,0,.35);
     }
 
     .subtitle{
       margin:10px 0 0 0;
-      opacity:.9;
+      opacity:.95;
       font-size: clamp(14px, 1.7vw, 18px);
+      color: rgba(255,255,255,.92);
     }
 
+    /* medallón tierno con moñito */
+    .medallion{
+      margin: 18px auto 0;
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.10));
+      border: 1px solid rgba(255,255,255,.25);
+      box-shadow: inset 0 0 0 2px rgba(246,211,107,.28);
+      display:grid;
+      place-items:center;
+      backdrop-filter: blur(6px);
+    }
+    .medallion svg{ width: 88px; height: 88px; opacity:.95; }
+
     .tap{
-      margin-top:22px;
+      margin-top:18px;
       display:inline-flex;
       gap:10px;
       align-items:center;
       padding:10px 14px;
       border-radius:999px;
-      background: rgba(0,0,0,.20);
+      background: rgba(255,255,255,.14);
       border: 1px solid rgba(255,255,255,.18);
       font-size:13px;
-      opacity:.95;
+      opacity:.98;
+      backdrop-filter: blur(8px);
     }
     .dot{
       width:9px;height:9px;border-radius:50%;
       background: var(--gold);
-      box-shadow: 0 0 18px rgba(246,211,107,.75);
+      box-shadow: 0 0 18px rgba(246,211,107,.85);
       animation: blink 1.2s ease-in-out infinite;
     }
     @keyframes blink{
@@ -170,14 +223,15 @@
       50%{ transform:scale(.6); opacity:.55; }
     }
 
+    /* interior */
     .inside{
       position:absolute;
       inset:0;
       border-radius: var(--radius);
-      background: linear-gradient(90deg, rgba(0,0,0,.12), transparent 18%, transparent 82%, rgba(0,0,0,.12));
+      background: linear-gradient(90deg, rgba(0,0,0,.10), transparent 18%, transparent 82%, rgba(0,0,0,.10));
       transform: translateZ(-1px);
       overflow:hidden;
-      box-shadow: var(--shadow);
+      box-shadow: 0 18px 60px rgba(0,0,0,.18);
     }
 
     .pages{
@@ -192,32 +246,30 @@
     .page{
       position:relative;
       padding: 22px 24px 62px;
-      background: var(--paper);
       color: var(--ink);
-      overflow:hidden; /* <- no scroll */
+      overflow:hidden; /* sin scroll */
       display:flex;
       flex-direction:column;
-      justify-content:space-between; /* texto arriba, dibujo abajo */
+      justify-content:space-between;
       gap:12px;
+
+      /* fondo “papel bonito” con patrón suave */
+      background:
+        radial-gradient(700px 260px at 50% 0%, rgba(255,255,255,.65), transparent 60%),
+        linear-gradient(180deg, var(--paper), var(--paper2)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg opacity='0.22'%3E%3Ccircle cx='24' cy='26' r='3' fill='rgba(255,120,180,0.65)'/%3E%3Ccircle cx='132' cy='38' r='3' fill='rgba(120,180,255,0.55)'/%3E%3Ccircle cx='40' cy='122' r='3' fill='rgba(246,211,107,0.55)'/%3E%3Cpath d='M96 120c-3-4-9-2-9 3 0 6 9 10 9 10s9-4 9-10c0-5-6-7-9-3z' fill='rgba(255,77,144,0.35)'/%3E%3Cpath d='M22 86l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1 2-4z' fill='rgba(246,211,107,0.30)'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: auto, auto, 160px 160px;
     }
 
     .page.left{
       border-right: 1px solid rgba(0,0,0,.08);
-      background:
-        radial-gradient(800px 300px at 25% 0%, rgba(255,225,210,.45), transparent 55%),
-        linear-gradient(180deg, #fff7ee, #fff1e1);
-    }
-
-    .page.right{
-      background:
-        radial-gradient(700px 260px at 70% 0%, rgba(220,235,255,.5), transparent 58%),
-        linear-gradient(180deg, #fff7ee, #fff1e1);
     }
 
     .page h2{
       margin:0 0 10px 0;
       font-size: 18px;
       letter-spacing:.2px;
+      font-family: Georgia, "Times New Roman", serif;
     }
 
     .page p{
@@ -244,10 +296,10 @@
 
     .book.open .cover{
       transform: rotateY(-165deg);
-      box-shadow: 0 25px 80px rgba(0,0,0,.35);
+      box-shadow: 0 25px 80px rgba(0,0,0,.22);
     }
 
-    /* navegación de páginas */
+    /* navegación */
     .nav{
       position:absolute;
       left:0; right:0; bottom:10px;
@@ -263,61 +315,66 @@
       border:0;
       cursor:pointer;
       padding:10px 12px;
-      border-radius: 12px;
-      font-weight:800;
-      background: rgba(0,0,0,.15);
-      border: 1px solid rgba(0,0,0,.10);
-      color:#1b1b1b;
-      backdrop-filter: blur(6px);
+      border-radius: 999px;
+      font-weight:900;
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(255,255,255,.65);
+      color:#2a1330;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.10);
       transition: transform .08s ease, filter .2s ease, opacity .2s ease;
     }
+    .nav button:hover{ filter: brightness(1.03); }
     .nav button:active{ transform: scale(.98); }
     .nav button:disabled{ opacity:.45; cursor:not-allowed; }
 
     .indicator{
       align-self:center;
       font-size:12px;
-      opacity:.75;
+      opacity:.9;
       padding:10px 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,.55);
-      border: 1px solid rgba(0,0,0,.08);
-      color:#222;
+      border-radius: 999px;
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(255,255,255,.65);
+      color:#2a1330;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.10);
+      font-weight:800;
     }
 
-    /* ilustraciones simples */
+    /* ilustraciones */
     .art{
       display:flex;
       justify-content:center;
       align-items:flex-end;
-      min-height: 90px;
-      opacity:.95;
+      min-height: 96px;
+      opacity:.98;
     }
     .art svg{
-      width: 110px;
-      height: 90px;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.12));
+      width: 120px;
+      height: 96px;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.10));
     }
 
-    /* pregunta clickeable (última página) */
     .question{
       margin-top: 6px;
       display:inline-block;
       padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(123,19,56,.10);
-      border: 1px dashed rgba(123,19,56,.35);
+      border-radius: 999px;
+      background: rgba(255,120,180,.16);
+      border: 1px dashed rgba(216,76,139,.55);
       cursor:pointer;
-      font-weight:800;
+      font-weight:900;
+      color:#3b0b1e;
     }
-    .question:hover{ background: rgba(123,19,56,.14); }
+    .question:hover{ background: rgba(255,120,180,.22); }
 
     .result{
       margin-top:10px;
       padding:12px 14px;
-      border-radius: 14px;
+      border-radius: 16px;
       border: 1px solid rgba(0,0,0,.10);
-      background: rgba(255,255,255,.7);
+      background: rgba(255,255,255,.72);
       display:none;
       font-size:14px;
       line-height:1.45;
@@ -330,8 +387,8 @@
       inset:0;
       display:none;
       place-items:center;
-      background: rgba(0,0,0,.55);
-      backdrop-filter: blur(5px);
+      background: rgba(25,10,25,.45);
+      backdrop-filter: blur(7px);
       z-index: 50;
       padding: 18px;
     }
@@ -339,17 +396,19 @@
 
     .card{
       width:min(460px, 92vw);
-      background: rgba(255,255,255,.95);
+      background: rgba(255,255,255,.96);
       color: #121212;
       border-radius: 18px;
-      box-shadow: 0 30px 90px rgba(0,0,0,.45);
+      box-shadow: 0 30px 90px rgba(0,0,0,.30);
       overflow:hidden;
-      border: 1px solid rgba(255,255,255,.35);
+      border: 1px solid rgba(255,255,255,.65);
     }
 
     .card-head{
       padding: 16px 18px;
-      background: linear-gradient(135deg, rgba(123,19,56,.18), rgba(246,211,107,.16));
+      background:
+        radial-gradient(600px 240px at 30% 20%, rgba(255,120,180,.22), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.75), rgba(255,255,255,.45));
       border-bottom: 1px solid rgba(0,0,0,.06);
     }
     .card-head b{ font-size: 16px; }
@@ -363,7 +422,7 @@
       appearance:none;
       border:0;
       padding: 11px 14px;
-      border-radius: 14px;
+      border-radius: 999px;
       font-weight: 900;
       cursor:pointer;
       flex:1;
@@ -376,10 +435,11 @@
       color: #1b0b12;
     }
     .no{
-      background: #efefef;
+      background: #f2f2f2;
       color:#222;
-      border: 1px solid rgba(0,0,0,.12);
+      border: 1px solid rgba(0,0,0,.10);
     }
+
     .mini{
       margin-top: 10px;
       font-size: 13px;
@@ -402,7 +462,7 @@
       transform: rotate(45deg);
       opacity:.95;
       animation: floatUp var(--dur) ease-in forwards;
-      filter: drop-shadow(0 8px 14px rgba(0,0,0,.25));
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,.18));
       color: rgba(255, 77, 144, .95);
       background: currentColor;
     }
@@ -423,7 +483,6 @@
       100%{ transform: translateY(-110vh) rotate(45deg) scale(var(--s)); opacity: 0; }
     }
 
-    /* responsive */
     @media (max-width: 740px){
       .pages{ grid-template-columns: 1fr; }
       .page.left{
@@ -439,7 +498,7 @@
   <div class="glow"></div>
 
   <div class="wrap">
-    <div class="hint">Haz clic en el libro para abrirlo 💛</div>
+    <div class="hint">Haz clic en el libro para abrirlo 💗</div>
 
     <div class="scene">
       <div class="book" id="book" aria-label="Libro animado">
@@ -469,7 +528,22 @@
           <div class="cover-content">
             <div>
               <h1 class="title">Para Liz</h1>
-              <p class="subtitle">Un libro pequeño, con un amor enorme.</p>
+              <p class="subtitle">Un libro clásico… con amor tierno ✨</p>
+
+              <div class="medallion" aria-hidden="true">
+                <!-- icono cute: moñito + corazoncito (no es Hello Kitty, solo vibe) -->
+                <svg viewBox="0 0 120 120">
+                  <g>
+                    <path d="M30 52c14-12 26-12 40 0-14 14-26 14-40 0z" fill="rgba(255,120,180,.95)"/>
+                    <path d="M50 52c14-12 26-12 40 0-14 14-26 14-40 0z" fill="rgba(255,120,180,.85)"/>
+                    <circle cx="60" cy="52" r="6" fill="rgba(246,211,107,.95)"/>
+                    <path d="M60 92c-6-8-18-4-18 6 0 12 18 20 18 20s18-8 18-20c0-10-12-14-18-6z" fill="rgba(255,77,144,.85)"/>
+                    <path d="M20 30l3 6 6 1-5 4 1 6-5-3-5 3 1-6-5-4 6-1 3-6z" fill="rgba(246,211,107,.55)"/>
+                    <path d="M100 34l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1 2-4z" fill="rgba(120,180,255,.55)"/>
+                  </g>
+                </svg>
+              </div>
+
               <div class="tap"><span class="dot"></span> Clic para abrir</div>
             </div>
           </div>
@@ -519,10 +593,8 @@
 
     let opened = false;
 
-    // Páginas (mínimo 4 antes de la última: aquí hay 6 total)
     const pages = [
       {
-        title: "Página 1",
         body: `
           <h2>Para ti, Liz ✨</h2>
           <p>Hoy solo quería recordarte algo simple: <b>me encantas</b>.</p>
@@ -533,40 +605,36 @@
         art: "heart"
       },
       {
-        title: "Página 2",
         body: `
           <h2>Lo que siento…</h2>
           <p>Te pienso en los detalles: en canciones, en momentos, en lo cotidiano.</p>
-          <p>Y cada vez que apareces en mi mente, se me acomoda el día.</p>
+          <p>Y cada vez que apareces en mi mente, mis dias mejoran.</p>
           <div class="divider"></div>
           <p>Porque quererte se siente bonito, Liz. <b>Muy bonito.</b></p>
         `,
         art: "butterfly"
       },
       {
-        title: "Página 3",
         body: `
-          <h2>Promesa 🌷</h2>
+          <h2>Promesa 🍄</h2>
           <p>Prometo cuidarte con palabras, con paciencia y con hechos.</p>
           <p>Prometo elegirte en lo bueno y acompañarte en lo difícil.</p>
           <div class="divider"></div>
           <p>Contigo, hasta lo simple se vuelve especial.</p>
         `,
-        art: "flower"
+        art: "mushroom"
       },
       {
-        title: "Página 4",
         body: `
-          <h2>Mi lugar favorito</h2>
-          <p>Mi lugar favorito no es un sitio: <b>es cuando estás tú</b>.</p>
-          <p>Tu risa, tu forma de mirar, tu manera de existir…</p>
+          <h2>Un libro clásico 📚</h2>
+          <p>Si nuestro amor fuera un libro, sería </p>
+          <p>De los que se releen y cada vez se quieren más.</p>
           <div class="divider"></div>
-          <p>Gracias por ser tú, Liz. <b>Me haces feliz.</b></p>
+          <p>Y mi capítulo favorito… <b>siempre eres tú</b>.</p>
         `,
-        art: "heart"
+        art: "classicBook"
       },
       {
-        title: "Página 5",
         body: `
           <h2>Un poquito más 🦋</h2>
           <p>No quiero un “te quiero” cualquiera.</p>
@@ -577,7 +645,6 @@
         art: "butterfly"
       },
       {
-        title: "Página 6",
         body: `
           <h2>La pregunta final 💌</h2>
           <p>Liz… llegamos a la última página.</p>
@@ -590,7 +657,6 @@
       }
     ];
 
-    // Dibujos simples en SVG
     function artSVG(type){
       if (type === "heart") return `
         <svg viewBox="0 0 120 90" aria-label="Corazón" role="img">
@@ -602,8 +668,7 @@
                    C 80 10, 96 12, 102 26
                    C 108 42, 90 58, 60 78 Z"
                 fill="rgba(255,77,144,.95)"/>
-          <circle cx="40" cy="28" r="4" fill="rgba(255,255,255,.6)"/>
-          <circle cx="52" cy="20" r="2" fill="rgba(255,255,255,.5)"/>
+          <circle cx="40" cy="28" r="4" fill="rgba(255,255,255,.65)"/>
         </svg>
       `;
 
@@ -612,18 +677,43 @@
           <path d="M60 16 C58 24,58 32,60 40 C62 32,62 24,60 16 Z"
                 fill="rgba(60,60,60,.55)"/>
           <path d="M58 38 C48 30,30 28,24 40 C20 50,28 60,42 58 C52 56,58 48,58 38 Z"
-                fill="rgba(120,180,255,.85)"/>
+                fill="rgba(120,180,255,.90)"/>
           <path d="M62 38 C72 30,90 28,96 40 C100 50,92 60,78 58 C68 56,62 48,62 38 Z"
-                fill="rgba(255,120,180,.85)"/>
-          <path d="M56 44 C44 44,34 52,36 62 C38 72,52 76,58 66"
-                fill="none" stroke="rgba(120,180,255,.55)" stroke-width="3" stroke-linecap="round"/>
-          <path d="M64 44 C76 44,86 52,84 62 C82 72,68 76,62 66"
-                fill="none" stroke="rgba(255,120,180,.55)" stroke-width="3" stroke-linecap="round"/>
+                fill="rgba(255,120,180,.90)"/>
           <circle cx="60" cy="42" r="6" fill="rgba(60,60,60,.55)"/>
         </svg>
       `;
 
-      // flower (default)
+      if (type === "mushroom") return `
+        <svg viewBox="0 0 120 90" aria-label="Hongo" role="img">
+          <path d="M30 44c0-18 18-28 30-28s30 10 30 28H30z"
+                fill="rgba(255,120,180,.90)"/>
+          <circle cx="48" cy="30" r="5" fill="rgba(255,255,255,.70)"/>
+          <circle cx="68" cy="28" r="4" fill="rgba(255,255,255,.65)"/>
+          <circle cx="82" cy="34" r="4" fill="rgba(255,255,255,.60)"/>
+          <path d="M52 44c0 20 4 30 8 30s8-10 8-30H52z"
+                fill="rgba(246,211,107,.85)"/>
+          <path d="M46 74h28" stroke="rgba(60,60,60,.25)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M20 76c10-8 20-8 30 0" stroke="rgba(120,180,255,.55)" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M70 76c10-8 20-8 30 0" stroke="rgba(120,180,255,.55)" stroke-width="4" stroke-linecap="round" fill="none"/>
+        </svg>
+      `;
+
+      if (type === "classicBook") return `
+        <svg viewBox="0 0 120 90" aria-label="Libro" role="img">
+          <rect x="22" y="18" width="76" height="54" rx="10"
+                fill="rgba(122,23,63,.90)"/>
+          <rect x="28" y="24" width="64" height="42" rx="8"
+                fill="rgba(255,255,255,.12)"/>
+          <path d="M60 22v46" stroke="rgba(246,211,107,.70)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M34 34h20M34 44h18M68 34h18M68 44h14"
+                stroke="rgba(255,255,255,.35)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M60 78c-5-7-14-4-14 4 0 10 14 16 14 16s14-6 14-16c0-8-9-11-14-4z"
+                fill="rgba(255,77,144,.55)"/>
+        </svg>
+      `;
+
+      /* flower default */
       return `
         <svg viewBox="0 0 120 90" aria-label="Flor" role="img">
           <circle cx="60" cy="42" r="10" fill="rgba(255,180,75,.95)"/>
@@ -632,12 +722,10 @@
           <circle cx="45" cy="54" r="12" fill="rgba(120,180,255,.85)"/>
           <circle cx="75" cy="54" r="12" fill="rgba(120,180,255,.85)"/>
           <path d="M60 52 C60 68, 60 74, 60 82" stroke="rgba(60,140,80,.75)" stroke-width="6" stroke-linecap="round"/>
-          <path d="M60 66 C52 64, 44 66, 40 72" stroke="rgba(60,140,80,.55)" stroke-width="5" stroke-linecap="round"/>
         </svg>
       `;
     }
 
-    // Render de 2 páginas a la vez
     let spreadIndex = 0; // 0,2,4...
     function renderSpread(){
       const left = pages[spreadIndex] || null;
@@ -649,17 +737,14 @@
       rightContent.innerHTML = right ? right.body : `<h2> </h2><p> </p>`;
       rightArt.innerHTML = right ? artSVG(right.art) : "";
 
-      // indicador (páginas humanas)
       const total = pages.length;
       const a = spreadIndex + 1;
       const b = Math.min(spreadIndex + 2, total);
       indicator.textContent = `Pág. ${a}–${b} de ${total}`;
 
-      // botones
       prevBtn.disabled = spreadIndex <= 0;
       nextBtn.disabled = spreadIndex + 2 >= pages.length;
 
-      // enganchar la pregunta si está visible
       const q = document.getElementById("question");
       if (q){
         q.addEventListener("click", () => {
@@ -692,7 +777,6 @@
     nextBtn.addEventListener("click", () => {
       if (!opened) openBook();
       spreadIndex = Math.min(pages.length - 1, spreadIndex + 2);
-      // asegurar que spreadIndex sea par
       if (spreadIndex % 2 !== 0) spreadIndex -= 1;
       renderSpread();
     });
@@ -736,7 +820,6 @@
       }, 120);
     }
 
-    // Respuesta Sí/No
     btnYes.addEventListener("click", () => {
       closeModal();
       const resultBox = document.getElementById("resultBox");
