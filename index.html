@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para Liz</title>
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#2b0f2a;
+      --paper:#fff7ee;
+      --ink:#1f1f1f;
+      --gold:#f6d36b;
+      --cover1:#7b1338;
+      --cover2:#3b0b1e;
+      --shadow: 0 25px 80px rgba(0,0,0,.55);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(1200px 700px at 20% 15%, rgba(255,90,160,.15), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(100,180,255,.10), transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      color:#fff;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow:hidden;
+    }
+
+    .glow{
+      position:fixed;
+      inset:-200px;
+      background: radial-gradient(circle at 50% 50%, rgba(246,211,107,.08), transparent 55%);
+      filter: blur(20px);
+      pointer-events:none;
+      animation: breathe 6s ease-in-out infinite;
+    }
+    @keyframes breathe{
+      0%,100%{ transform: scale(1); opacity:.8; }
+      50%{ transform: scale(1.05); opacity:1; }
+    }
+
+    .wrap{
+      width:min(980px, 94vw);
+      padding:22px;
+      display:grid;
+      gap:16px;
+      justify-items:center;
+    }
+
+    .hint{
+      opacity:.9;
+      font-size:14px;
+      letter-spacing:.2px;
+      text-align:center;
+    }
+    .hint b{ color:var(--gold); }
+
+    .scene{
+      perspective: 1600px;
+      width:min(860px, 92vw);
+      height:min(520px, 62vh);
+      display:grid;
+      place-items:center;
+    }
+
+    .book{
+      position:relative;
+      width:min(760px, 92vw);
+      height:min(460px, 56vh);
+      transform-style:preserve-3d;
+      filter: drop-shadow(0 25px 60px rgba(0,0,0,.55));
+      user-select:none;
+    }
+
+    .spine{
+      position:absolute;
+      left: -18px;
+      top: 8px;
+      width: 36px;
+      height: calc(100% - 16px);
+      background: linear-gradient(180deg, #2a0614, #16030a);
+      border-radius: 14px;
+      transform: translateZ(2px);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.06);
+    }
+
+    .cover{
+      position:absolute;
+      inset:0;
+      background: linear-gradient(135deg, var(--cover1), var(--cover2));
+      border-radius: var(--radius);
+      transform-origin: left center;
+      transform-style:preserve-3d;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+      transition: transform 1.15s cubic-bezier(.2,.9,.15,1), box-shadow .5s ease;
+      overflow:hidden;
+    }
+
+    .cover::before{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border-radius: calc(var(--radius) - 8px);
+      box-shadow: inset 0 0 0 2px rgba(246,211,107,.55);
+      opacity:.9;
+      pointer-events:none;
+    }
+
+    .cover::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(600px 300px at 20% 20%, rgba(255,255,255,.18), transparent 55%),
+        radial-gradient(420px 240px at 80% 30%, rgba(246,211,107,.18), transparent 55%);
+      mix-blend-mode: screen;
+      opacity:.55;
+      pointer-events:none;
+    }
+
+    .cover-content{
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding:28px;
+      transform: translateZ(12px);
+      text-align:center;
+    }
+
+    .title{
+      font-size: clamp(28px, 3.6vw, 44px);
+      font-weight: 900;
+      letter-spacing: .5px;
+      margin:0;
+    }
+
+    .subtitle{
+      margin:10px 0 0 0;
+      opacity:.9;
+      font-size: clamp(14px, 1.7vw, 18px);
+    }
+
+    .tap{
+      margin-top:22px;
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:999px;
+      background: rgba(0,0,0,.20);
+      border: 1px solid rgba(255,255,255,.18);
+      font-size:13px;
+      opacity:.95;
+    }
+    .dot{
+      width:9px;height:9px;border-radius:50%;
+      background: var(--gold);
+      box-shadow: 0 0 18px rgba(246,211,107,.75);
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    @keyframes blink{
+      0%,100%{ transform:scale(1); opacity:1; }
+      50%{ transform:scale(.6); opacity:.55; }
+    }
+
+    .inside{
+      position:absolute;
+      inset:0;
+      border-radius: var(--radius);
+      background: linear-gradient(90deg, rgba(0,0,0,.12), transparent 18%, transparent 82%, rgba(0,0,0,.12));
+      transform: translateZ(-1px);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .pages{
+      position:absolute;
+      inset:0;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      overflow:hidden;
+      border-radius: var(--radius);
+    }
+
+    .page{
+      position:relative;
+      padding: 22px 24px 62px;
+      background: var(--paper);
+      color: var(--ink);
+      overflow:hidden; /* <- no scroll */
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between; /* texto arriba, dibujo abajo */
+      gap:12px;
+    }
+
+    .page.left{
+      border-right: 1px solid rgba(0,0,0,.08);
+      background:
+        radial-gradient(800px 300px at 25% 0%, rgba(255,225,210,.45), transparent 55%),
+        linear-gradient(180deg, #fff7ee, #fff1e1);
+    }
+
+    .page.right{
+      background:
+        radial-gradient(700px 260px at 70% 0%, rgba(220,235,255,.5), transparent 58%),
+        linear-gradient(180deg, #fff7ee, #fff1e1);
+    }
+
+    .page h2{
+      margin:0 0 10px 0;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+
+    .page p{
+      margin: 0 0 10px 0;
+      line-height:1.5;
+      font-size: 14px;
+    }
+
+    .divider{
+      height:1px;
+      background: rgba(0,0,0,.10);
+      margin: 10px 0;
+    }
+
+    .reveal{
+      opacity:0;
+      transform: translateY(10px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .book.open .reveal{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    .book.open .cover{
+      transform: rotateY(-165deg);
+      box-shadow: 0 25px 80px rgba(0,0,0,.35);
+    }
+
+    /* navegación de páginas */
+    .nav{
+      position:absolute;
+      left:0; right:0; bottom:10px;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      padding:0 10px;
+      pointer-events:auto;
+    }
+
+    .nav button{
+      appearance:none;
+      border:0;
+      cursor:pointer;
+      padding:10px 12px;
+      border-radius: 12px;
+      font-weight:800;
+      background: rgba(0,0,0,.15);
+      border: 1px solid rgba(0,0,0,.10);
+      color:#1b1b1b;
+      backdrop-filter: blur(6px);
+      transition: transform .08s ease, filter .2s ease, opacity .2s ease;
+    }
+    .nav button:active{ transform: scale(.98); }
+    .nav button:disabled{ opacity:.45; cursor:not-allowed; }
+
+    .indicator{
+      align-self:center;
+      font-size:12px;
+      opacity:.75;
+      padding:10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(0,0,0,.08);
+      color:#222;
+    }
+
+    /* ilustraciones simples */
+    .art{
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      min-height: 90px;
+      opacity:.95;
+    }
+    .art svg{
+      width: 110px;
+      height: 90px;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.12));
+    }
+
+    /* pregunta clickeable (última página) */
+    .question{
+      margin-top: 6px;
+      display:inline-block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(123,19,56,.10);
+      border: 1px dashed rgba(123,19,56,.35);
+      cursor:pointer;
+      font-weight:800;
+    }
+    .question:hover{ background: rgba(123,19,56,.14); }
+
+    .result{
+      margin-top:10px;
+      padding:12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.7);
+      display:none;
+      font-size:14px;
+      line-height:1.45;
+    }
+    .result.show{ display:block; }
+
+    /* Modal Sí/No */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(5px);
+      z-index: 50;
+      padding: 18px;
+    }
+    .modal.show{ display:grid; }
+
+    .card{
+      width:min(460px, 92vw);
+      background: rgba(255,255,255,.95);
+      color: #121212;
+      border-radius: 18px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.45);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.35);
+    }
+
+    .card-head{
+      padding: 16px 18px;
+      background: linear-gradient(135deg, rgba(123,19,56,.18), rgba(246,211,107,.16));
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .card-head b{ font-size: 16px; }
+
+    .card-body{ padding: 16px 18px 18px; }
+    .card-body p{ margin: 0 0 12px 0; line-height:1.5; font-size: 14px; }
+
+    .btns{ display:flex; gap:12px; margin-top: 10px; }
+
+    .card button{
+      appearance:none;
+      border:0;
+      padding: 11px 14px;
+      border-radius: 14px;
+      font-weight: 900;
+      cursor:pointer;
+      flex:1;
+      transition: transform .08s ease, filter .2s ease;
+    }
+    .card button:active{ transform: scale(.98); }
+
+    .yes{
+      background: linear-gradient(135deg, #ff4b8a, #ffb84b);
+      color: #1b0b12;
+    }
+    .no{
+      background: #efefef;
+      color:#222;
+      border: 1px solid rgba(0,0,0,.12);
+    }
+    .mini{
+      margin-top: 10px;
+      font-size: 13px;
+      opacity:.85;
+      min-height: 18px;
+    }
+
+    /* Corazones flotando */
+    .hearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index: 60;
+      overflow:hidden;
+    }
+    .heart{
+      position:absolute;
+      width: 16px;
+      height: 16px;
+      transform: rotate(45deg);
+      opacity:.95;
+      animation: floatUp var(--dur) ease-in forwards;
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,.25));
+      color: rgba(255, 77, 144, .95);
+      background: currentColor;
+    }
+    .heart::before, .heart::after{
+      content:"";
+      position:absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .heart::before{ left:-8px; top:0; }
+    .heart::after{ left:0; top:-8px; }
+
+    @keyframes floatUp{
+      0%{ transform: translateY(0) rotate(45deg) scale(var(--s)); opacity: 0; }
+      10%{ opacity: .95; }
+      100%{ transform: translateY(-110vh) rotate(45deg) scale(var(--s)); opacity: 0; }
+    }
+
+    /* responsive */
+    @media (max-width: 740px){
+      .pages{ grid-template-columns: 1fr; }
+      .page.left{
+        border-right:none;
+        border-bottom: 1px solid rgba(0,0,0,.08);
+      }
+      .scene{ height: min(720px, 72vh); }
+      .book{ height: min(640px, 66vh); }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <div class="wrap">
+    <div class="hint">Haz clic en el libro para abrirlo 💛</div>
+
+    <div class="scene">
+      <div class="book" id="book" aria-label="Libro animado">
+        <div class="spine" aria-hidden="true"></div>
+
+        <div class="inside">
+          <div class="pages">
+            <div class="page left">
+              <div class="reveal" id="leftContent"></div>
+              <div class="reveal art" id="leftArt"></div>
+            </div>
+
+            <div class="page right">
+              <div class="reveal" id="rightContent"></div>
+              <div class="reveal art" id="rightArt"></div>
+            </div>
+          </div>
+
+          <div class="nav">
+            <button id="prevBtn" aria-label="Página anterior">◀ Anterior</button>
+            <div class="indicator" id="indicator">Páginas</div>
+            <button id="nextBtn" aria-label="Página siguiente">Siguiente ▶</button>
+          </div>
+        </div>
+
+        <div class="cover" id="cover" role="button" tabindex="0" aria-label="Portada del libro (clic para abrir)">
+          <div class="cover-content">
+            <div>
+              <h1 class="title">Para Liz</h1>
+              <p class="subtitle">Un libro pequeño, con un amor enorme.</p>
+              <div class="tap"><span class="dot"></span> Clic para abrir</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Sí/No -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="card" role="dialog" aria-modal="true" aria-label="Pregunta San Valentín">
+      <div class="card-head">
+        <b>¿Quieres ser mi San Valentín, Liz? 💖</b>
+      </div>
+      <div class="card-body">
+        <p>Elige una opción 👇</p>
+        <div class="btns">
+          <button class="yes" id="btnYes">Sí</button>
+          <button class="no" id="btnNo">No</button>
+        </div>
+        <div class="mini" id="miniMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Corazones -->
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    const book = document.getElementById("book");
+    const cover = document.getElementById("cover");
+
+    const leftContent = document.getElementById("leftContent");
+    const rightContent = document.getElementById("rightContent");
+    const leftArt = document.getElementById("leftArt");
+    const rightArt = document.getElementById("rightArt");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const indicator = document.getElementById("indicator");
+
+    const modal = document.getElementById("modal");
+    const btnYes = document.getElementById("btnYes");
+    const btnNo = document.getElementById("btnNo");
+    const miniMsg = document.getElementById("miniMsg");
+    const hearts = document.getElementById("hearts");
+
+    let opened = false;
+
+    // Páginas (mínimo 4 antes de la última: aquí hay 6 total)
+    const pages = [
+      {
+        title: "Página 1",
+        body: `
+          <h2>Para ti, Liz ✨</h2>
+          <p>Hoy solo quería recordarte algo simple: <b>me encantas</b>.</p>
+          <p>Me gusta tu forma de ser, tu esencia, y cómo sin darte cuenta me haces sonreír.</p>
+          <div class="divider"></div>
+          <p>Si pudiera, te daría un abrazo largo y te diría: <b>aquí estoy para ti</b>.</p>
+        `,
+        art: "heart"
+      },
+      {
+        title: "Página 2",
+        body: `
+          <h2>Lo que siento…</h2>
+          <p>Te pienso en los detalles: en canciones, en momentos, en lo cotidiano.</p>
+          <p>Y cada vez que apareces en mi mente, se me acomoda el día.</p>
+          <div class="divider"></div>
+          <p>Porque quererte se siente bonito, Liz. <b>Muy bonito.</b></p>
+        `,
+        art: "butterfly"
+      },
+      {
+        title: "Página 3",
+        body: `
+          <h2>Promesa 🌷</h2>
+          <p>Prometo cuidarte con palabras, con paciencia y con hechos.</p>
+          <p>Prometo elegirte en lo bueno y acompañarte en lo difícil.</p>
+          <div class="divider"></div>
+          <p>Contigo, hasta lo simple se vuelve especial.</p>
+        `,
+        art: "flower"
+      },
+      {
+        title: "Página 4",
+        body: `
+          <h2>Mi lugar favorito</h2>
+          <p>Mi lugar favorito no es un sitio: <b>es cuando estás tú</b>.</p>
+          <p>Tu risa, tu forma de mirar, tu manera de existir…</p>
+          <div class="divider"></div>
+          <p>Gracias por ser tú, Liz. <b>Me haces feliz.</b></p>
+        `,
+        art: "heart"
+      },
+      {
+        title: "Página 5",
+        body: `
+          <h2>Un poquito más 🦋</h2>
+          <p>No quiero un “te quiero” cualquiera.</p>
+          <p>Quiero un “te quiero” que se note</p>
+          <div class="divider"></div>
+          <p>Y la verdad… <b>yo sí quiero todo contigo</b>.</p>
+        `,
+        art: "butterfly"
+      },
+      {
+        title: "Página 6",
+        body: `
+          <h2>La pregunta final 💌</h2>
+          <p>Liz… llegamos a la última página.</p>
+          <p>Y aquí va mi pregunta, con el corazón en la mano:</p>
+          <div class="divider"></div>
+          <div class="question" id="question">¿Quieres ser mi San Valentín? 💖</div>
+          <div class="result" id="resultBox"><div id="resultText"></div></div>
+        `,
+        art: "flower"
+      }
+    ];
+
+    // Dibujos simples en SVG
+    function artSVG(type){
+      if (type === "heart") return `
+        <svg viewBox="0 0 120 90" aria-label="Corazón" role="img">
+          <path d="M60 78
+                   C 30 58, 12 42, 18 26
+                   C 24 12, 40 10, 50 18
+                   C 55 22, 58 28, 60 32
+                   C 62 28, 65 22, 70 18
+                   C 80 10, 96 12, 102 26
+                   C 108 42, 90 58, 60 78 Z"
+                fill="rgba(255,77,144,.95)"/>
+          <circle cx="40" cy="28" r="4" fill="rgba(255,255,255,.6)"/>
+          <circle cx="52" cy="20" r="2" fill="rgba(255,255,255,.5)"/>
+        </svg>
+      `;
+
+      if (type === "butterfly") return `
+        <svg viewBox="0 0 120 90" aria-label="Mariposa" role="img">
+          <path d="M60 16 C58 24,58 32,60 40 C62 32,62 24,60 16 Z"
+                fill="rgba(60,60,60,.55)"/>
+          <path d="M58 38 C48 30,30 28,24 40 C20 50,28 60,42 58 C52 56,58 48,58 38 Z"
+                fill="rgba(120,180,255,.85)"/>
+          <path d="M62 38 C72 30,90 28,96 40 C100 50,92 60,78 58 C68 56,62 48,62 38 Z"
+                fill="rgba(255,120,180,.85)"/>
+          <path d="M56 44 C44 44,34 52,36 62 C38 72,52 76,58 66"
+                fill="none" stroke="rgba(120,180,255,.55)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M64 44 C76 44,86 52,84 62 C82 72,68 76,62 66"
+                fill="none" stroke="rgba(255,120,180,.55)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="60" cy="42" r="6" fill="rgba(60,60,60,.55)"/>
+        </svg>
+      `;
+
+      // flower (default)
+      return `
+        <svg viewBox="0 0 120 90" aria-label="Flor" role="img">
+          <circle cx="60" cy="42" r="10" fill="rgba(255,180,75,.95)"/>
+          <circle cx="45" cy="34" r="12" fill="rgba(255,120,180,.85)"/>
+          <circle cx="75" cy="34" r="12" fill="rgba(255,120,180,.85)"/>
+          <circle cx="45" cy="54" r="12" fill="rgba(120,180,255,.85)"/>
+          <circle cx="75" cy="54" r="12" fill="rgba(120,180,255,.85)"/>
+          <path d="M60 52 C60 68, 60 74, 60 82" stroke="rgba(60,140,80,.75)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M60 66 C52 64, 44 66, 40 72" stroke="rgba(60,140,80,.55)" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+      `;
+    }
+
+    // Render de 2 páginas a la vez
+    let spreadIndex = 0; // 0,2,4...
+    function renderSpread(){
+      const left = pages[spreadIndex] || null;
+      const right = pages[spreadIndex + 1] || null;
+
+      leftContent.innerHTML = left ? left.body : `<h2> </h2><p> </p>`;
+      leftArt.innerHTML = left ? artSVG(left.art) : "";
+
+      rightContent.innerHTML = right ? right.body : `<h2> </h2><p> </p>`;
+      rightArt.innerHTML = right ? artSVG(right.art) : "";
+
+      // indicador (páginas humanas)
+      const total = pages.length;
+      const a = spreadIndex + 1;
+      const b = Math.min(spreadIndex + 2, total);
+      indicator.textContent = `Pág. ${a}–${b} de ${total}`;
+
+      // botones
+      prevBtn.disabled = spreadIndex <= 0;
+      nextBtn.disabled = spreadIndex + 2 >= pages.length;
+
+      // enganchar la pregunta si está visible
+      const q = document.getElementById("question");
+      if (q){
+        q.addEventListener("click", () => {
+          miniMsg.textContent = "";
+          modal.classList.add("show");
+          modal.setAttribute("aria-hidden", "false");
+        }, { once: true });
+      }
+    }
+
+    function openBook(){
+      if (opened) return;
+      opened = true;
+      book.classList.add("open");
+      spreadIndex = 0;
+      renderSpread();
+    }
+
+    cover.addEventListener("click", openBook);
+    cover.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") openBook();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (!opened) openBook();
+      spreadIndex = Math.max(0, spreadIndex - 2);
+      renderSpread();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (!opened) openBook();
+      spreadIndex = Math.min(pages.length - 1, spreadIndex + 2);
+      // asegurar que spreadIndex sea par
+      if (spreadIndex % 2 !== 0) spreadIndex -= 1;
+      renderSpread();
+    });
+
+    function closeModal(){
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    function spawnHearts(durationMs = 4200){
+      const start = Date.now();
+      const interval = setInterval(() => {
+        const h = document.createElement("div");
+        h.className = "heart";
+
+        const left = Math.random() * 100;
+        const dur = 2.5 + Math.random() * 2.6;
+        const scale = 0.8 + Math.random() * 1.8;
+
+        h.style.left = left + "vw";
+        h.style.bottom = "-20px";
+        h.style.setProperty("--dur", dur + "s");
+        h.style.setProperty("--s", scale.toFixed(2));
+
+        const colors = [
+          "rgba(255, 77, 144, .95)",
+          "rgba(255, 120, 180, .95)",
+          "rgba(255, 90, 90, .95)",
+          "rgba(255, 180, 75, .95)"
+        ];
+        h.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+        hearts.appendChild(h);
+        h.addEventListener("animationend", () => h.remove());
+
+        if (Date.now() - start > durationMs) clearInterval(interval);
+      }, 120);
+    }
+
+    // Respuesta Sí/No
+    btnYes.addEventListener("click", () => {
+      closeModal();
+      const resultBox = document.getElementById("resultBox");
+      const resultText = document.getElementById("resultText");
+      if (resultBox && resultText){
+        resultBox.classList.add("show");
+        resultText.innerHTML = `
+          <b>¡SÍÍÍ! 💕</b><br>
+          Liz, me haces la persona más feliz. Prometo amarte bonito, cuidarte y elegirte.
+          <br><br>
+          <b>Feliz San Valentín, mi amor.</b> 🌹
+        `;
+      }
+      spawnHearts(5200);
+    });
+
+    btnNo.addEventListener("click", () => {
+      miniMsg.textContent = ":(  Inténtalo de nuevo";
+      miniMsg.style.color = "#333";
+      const card = modal.querySelector(".card");
+      card.animate(
+        [
+          { transform: "translateX(0)" },
+          { transform: "translateX(-6px)" },
+          { transform: "translateX(6px)" },
+          { transform: "translateX(-4px)" },
+          { transform: "translateX(4px)" },
+          { transform: "translateX(0)" }
+        ],
+        { duration: 350, easing: "ease-in-out" }
+      );
+    });
+  </script>
+</body>
+</html>
